@@ -40,7 +40,6 @@ for {
         if i == 9 {
             startString++
             break
-            // next curcer
         }
     }
 }
