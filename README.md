@@ -22,9 +22,13 @@ Go to your workspace and clone repository
 1. I create DNA pattern and save the output to `dnaPattern` parameter.
 
 ```golang
-for j := i; j < len(dna); j++ {
-    swaped := swap(str, i, j)
-    permutations(swaped, 0, len(swaped), &dnaPattern)
+func createDNAPattern(dna []string, dnaPattern *string) {
+	i := 0
+	str := strings.Join(dna, "")
+	for j := i; j < len(dna); j++ {
+		swaped := swap(str, i, j)
+		permutations(swaped, 0, len(swaped), dnaPattern)
+	}
 }
 ```
 
@@ -34,41 +38,60 @@ for j := i; j < len(dna); j++ {
     pattern := make([]string, 0)
 ```
 
-3. I create forever loop for get string pattern and store pattern to `pattern` array.
+3. I create forever loop for get string pattern and store pattern to `findKey` array.
 
 ```golang
-for {
-    if startString == len(dnaPattern)-10 {
-        break
-    }
-    var temp string
-    newPattern := dnaPattern[startString:]
-    for i, a := range newPattern {
-        temp += string(a)
-        if i < 2 {
-            continue
-        }
-        pattern = append(pattern, temp)
+func createFindKey(dnaPattern string) *[]string {
+	findKey := make([]string, 0)
+	var startString int
+	for {
+		if startString == len(dnaPattern)-10 {
+			break
+		}
+		var temp string
+		subPattern := dnaPattern[startString:]
+		for i, a := range subPattern {
+			temp += string(a)
+			if i < 2 {
+				continue
+			}
+			findKey = append(findKey, temp)
 
-        if i == 9 {
-            startString++
-            break
-        }
-    }
+			if i == 9 {
+				startString++
+				break
+				// next curcer
+			}
+		}
+	}
+	return &findKey
 }
 ```
 
 4. I find the unique pattern.
 ```golang
-unique := distinct(pattern)
+func distinct(arr *[]string) {
+	tempMap := make(map[string]string, 0)
+	arrResult := make([]string, 0)
+	for _, v := range *arr {
+		tempMap[v] = v
+	}
+
+	for key := range tempMap {
+		arrResult = append(arrResult, key)
+	}
+
+	*arr = arrResult
+}
 ```
 
 5. Find the match pattern in `dnaPattern` and display output.
 ```golang
-    for i, p := range unique {
-        reg := regexp.MustCompile(p)
-        matches := reg.FindAllStringIndex(dnaPattern, -1)
-        fmt.Println(i+1, "pattern", fmt.Sprintf(`'%s'`, p), "matches", len(matches))
-    }
-
+func println(mapCounter *map[string]int) {
+	i := 1
+	for k, v := range *mapCounter {
+		fmt.Printf("%d. pattern '%s' matches %d\n", i, k, v)
+		i++
+	}
+}
 ```
