@@ -16,6 +16,8 @@ Go to your workspace and clone repository
 3. if your want to build please follow this command `go build -o tandem-repeat.sh main.go`  and run `
 ./tandem-repeat.sh > out.log`
 
+4. if your want to run test follow this command `go test -v --cover  ./...`
+
 
 ##### Explain codeing
 
@@ -30,15 +32,27 @@ func createDNAPattern(dna []string, dnaPattern *string) {
 		permutations(swaped, 0, len(swaped), dnaPattern)
 	}
 }
+
+func permutations(str string, i, n int, out *string) {
+	// base condition
+	if i == n-1 {
+		*out += str
+		return
+	}
+
+	for j := i; j < n; j++ {
+		str = swap(str, i, j)
+
+		permutations(str, i+1, n, out)
+
+		str = swap(str, i, j)
+	}
+}
+
 ```
 
-2. I create a new array string for store the key 3 - 10 length.
 
-```golang
-    pattern := make([]string, 0)
-```
-
-3. I create forever loop for get string pattern and store pattern to `findKey` array.
+2. I create forever loop for get string pattern and store pattern to `findKey` array.
 
 ```golang
 func createFindKey(dnaPattern string) *[]string {
@@ -68,7 +82,8 @@ func createFindKey(dnaPattern string) *[]string {
 }
 ```
 
-4. I find the unique pattern.
+3. I find the unique findKey.
+
 ```golang
 func distinct(arr *[]string) {
 	tempMap := make(map[string]string, 0)
@@ -85,7 +100,7 @@ func distinct(arr *[]string) {
 }
 ```
 
-5. Find the match pattern in `dnaPattern` and display output.
+4. Find the match pattern in `dnaPattern` and display output.
 ```golang
 func println(mapCounter *map[string]int) {
 	i := 1
