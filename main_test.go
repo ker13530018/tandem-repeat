@@ -232,3 +232,59 @@ func Test_counter(t *testing.T) {
 		})
 	}
 }
+
+func Test_println(t *testing.T) {
+	mapTest := make(map[string]int, 0)
+	mapTest["ABC"] = 1
+	mapTest["BAC"] = 1
+	mapTest["CAB"] = 1
+
+	type args struct {
+		mapCounter *map[string]int
+	}
+	tests := []struct {
+		name string
+		args args
+	}{
+		// TODO: Add test cases.
+		{
+			name: "test print",
+			args: args{
+				mapCounter: &mapTest,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			println(tt.args.mapCounter)
+		})
+	}
+}
+
+func Test_printJSON(t *testing.T) {
+	mapTest := make(map[string]int, 0)
+	mapTest["ABC"] = 1
+	mapTest["BAC"] = 1
+	mapTest["CAB"] = 1
+
+	type args struct {
+		mapCounter *map[string]int
+	}
+	tests := []struct {
+		name string
+		args args
+	}{
+		// TODO: Add test cases.
+		{
+			name: "test print",
+			args: args{
+				mapCounter: &mapTest,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			printJSON(tt.args.mapCounter)
+		})
+	}
+}
