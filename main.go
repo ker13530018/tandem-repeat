@@ -1,37 +1,52 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"regexp"
 	"strings"
 )
 
 func main() {
-	var str, dnaPattern string
-	i := 0
-	dna := []string{"A", "C", "G", "T"}
-	str = strings.Join(dna, "")
+	var dnaPattern string
 
+	dna := []string{"A", "C", "G", "T"}
+
+	createDNAPattern(dna, &dnaPattern)
+
+	findKeys := createFindKey(dnaPattern)
+
+	distinct(findKeys)
+
+	mapCounter := counter(dnaPattern, findKeys)
+
+	println(&mapCounter)
+}
+
+func createDNAPattern(dna []string, dnaPattern *string) {
+	i := 0
+	str := strings.Join(dna, "")
 	for j := i; j < len(dna); j++ {
 		swaped := swap(str, i, j)
-		permutations(swaped, 0, len(swaped), &dnaPattern)
+		permutations(swaped, 0, len(swaped), dnaPattern)
 	}
+}
 
-	pattern := make([]string, 0)
-
+func createFindKey(dnaPattern string) *[]string {
+	findKey := make([]string, 0)
 	var startString int
 	for {
 		if startString == len(dnaPattern)-10 {
 			break
 		}
 		var temp string
-		newPattern := dnaPattern[startString:]
-		for i, a := range newPattern {
+		subPattern := dnaPattern[startString:]
+		for i, a := range subPattern {
 			temp += string(a)
 			if i < 2 {
 				continue
 			}
-			pattern = append(pattern, temp)
+			findKey = append(findKey, temp)
 
 			if i == 9 {
 				startString++
@@ -40,20 +55,36 @@ func main() {
 			}
 		}
 	}
-
-	unique := distinct(pattern)
-	for i, p := range unique {
-		reg := regexp.MustCompile(p)
-		matches := reg.FindAllStringIndex(dnaPattern, -1)
-		fmt.Println(i+1, "pattern", fmt.Sprintf(`'%s'`, p), "matches", len(matches))
-	}
-
+	return &findKey
 }
 
-func distinct(arr []string) []string {
+func println(mapCounter *map[string]int) {
+	i := 1
+	for k, v := range *mapCounter {
+		fmt.Printf("%d. pattern '%s' matches %d\n", i, k, v)
+		i++
+	}
+}
+
+func printJSON(mapCounter *map[string]int) {
+	bytes, _ := json.Marshal(mapCounter)
+	fmt.Println(string(bytes))
+}
+
+func counter(dnaPattern string, arr *[]string) map[string]int {
+	resultMap := make(map[string]int, 0)
+	for _, p := range *arr {
+		reg := regexp.MustCompile(p)
+		matches := reg.FindAllStringIndex(dnaPattern, -1)
+		resultMap[p] = len(matches)
+	}
+	return resultMap
+}
+
+func distinct(arr *[]string) {
 	tempMap := make(map[string]string, 0)
 	arrResult := make([]string, 0)
-	for _, v := range arr {
+	for _, v := range *arr {
 		tempMap[v] = v
 	}
 
@@ -61,7 +92,7 @@ func distinct(arr []string) []string {
 		arrResult = append(arrResult, key)
 	}
 
-	return arrResult
+	*arr = arrResult
 }
 
 func swap(s string, i, j int) string {
