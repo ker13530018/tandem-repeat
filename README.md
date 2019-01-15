@@ -1,10 +1,23 @@
+##### Installation
+Dowload [Golang 1.10.7](https://golang.org/dl/) and install.
 
-##### RUN and Save log
-```
-./tandem-repeat.sh > out.log 
-```
+##### Clone Repository
+Go to your workspace and clone repository
+
+`git clone git@github.com:ker13530018/tandem-repeat.git`
 
 
+##### Build or RUN
+
+1. go to project folder follow this command `cd tandem-repeat`
+
+2. if your want to run please follow this command `go run main.go`
+
+3. if your want to build please follow this command `go build -o tandem-repeat.sh main.go`  and run `
+./tandem-repeat.sh > out.log`
+
+
+##### Explain codeing
 
 1. I create DNA pattern and save the output to `dnaPattern` parameter.
 
