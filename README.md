@@ -11,10 +11,10 @@ Go to your workspace and clone repository
 
 1. go to project folder follow this command `cd tandem-repeat`
 
-2. if your want to run please follow this command `go run main.go`
+2. if your want to run please follow this command `go run main.go -input=ACGT`
 
 3. if your want to build please follow this command `go build -o tandem-repeat.sh main.go`  and run `
-./tandem-repeat.sh > out.log`
+./tandem-repeat.sh -input=ACGT > out.log`
 
 4. if your want to run test follow this command `go test -v --cover  ./...`
 
@@ -24,9 +24,8 @@ Go to your workspace and clone repository
 1. I create DNA pattern and save the output to `dnaPattern` parameter.
 
 ```golang
-func createDNAPattern(dna []string, dnaPattern *string) {
+func createDNAPattern(dna string, dnaPattern *string) {
 	i := 0
-	str := strings.Join(dna, "")
 	for j := i; j < len(dna); j++ {
 		swaped := swap(str, i, j)
 		permutations(swaped, 0, len(swaped), dnaPattern)

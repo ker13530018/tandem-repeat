@@ -2,17 +2,18 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"regexp"
-	"strings"
 )
 
 func main() {
 	var dnaPattern string
 
-	dna := []string{"A", "C", "G", "T"}
+	dna := flag.String("input", "ACGT", "a dna value")
+	flag.Parse()
 
-	createDNAPattern(dna, &dnaPattern)
+	createDNAPattern(*dna, &dnaPattern)
 
 	findKeys := createFindKey(dnaPattern)
 
@@ -23,11 +24,10 @@ func main() {
 	println(&mapCounter)
 }
 
-func createDNAPattern(dna []string, dnaPattern *string) {
+func createDNAPattern(dna string, dnaPattern *string) {
 	i := 0
-	str := strings.Join(dna, "")
 	for j := i; j < len(dna); j++ {
-		swaped := swap(str, i, j)
+		swaped := swap(dna, i, j)
 		permutations(swaped, 0, len(swaped), dnaPattern)
 	}
 }

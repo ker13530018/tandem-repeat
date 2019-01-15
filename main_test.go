@@ -83,7 +83,7 @@ func Test_permutations(t *testing.T) {
 func Test_createDNAPattern(t *testing.T) {
 	var p string
 	type args struct {
-		dna        []string
+		dna        string
 		dnaPattern *string
 	}
 	tests := []struct {
@@ -95,7 +95,7 @@ func Test_createDNAPattern(t *testing.T) {
 		{
 			name: "ABCD",
 			args: args{
-				dna:        []string{`A`, `B`, `C`, `D`},
+				dna:        "ABCD",
 				dnaPattern: &p,
 			},
 			wantLength: 384,
@@ -119,12 +119,11 @@ func Test_createFindKey(t *testing.T) {
 		outPattern *string
 		dnaPattern string
 		arr        *[]string
-		dnaArray   []string
 	}
 	tests := []struct {
 		name       string
 		args       args
-		depenFunc  func(dna []string, dnaPattern *string)
+		depenFunc  func(dna string, dnaPattern *string)
 		wantLength int
 	}{
 		// TODO: Add test cases.
@@ -133,7 +132,6 @@ func Test_createFindKey(t *testing.T) {
 			args: args{
 				dnaPattern: "ABCD",
 				arr:        &outArr,
-				dnaArray:   []string{`A`, `B`, `C`, `D`},
 				outPattern: &outPattern,
 			},
 			depenFunc:  createDNAPattern,
@@ -142,7 +140,7 @@ func Test_createFindKey(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tt.depenFunc(tt.args.dnaArray, tt.args.outPattern)
+			tt.depenFunc(tt.args.dnaPattern, tt.args.outPattern)
 			got := createFindKey(*tt.args.outPattern)
 			if tt.wantLength != len(*got) {
 				t.Errorf("createFindKey() = %d, want length %d", len(*got), tt.wantLength)
@@ -164,7 +162,7 @@ func Test_distinct(t *testing.T) {
 	tests := []struct {
 		name       string
 		args       args
-		depenFunc  func(dna []string, dnaPattern *string)
+		depenFunc  func(dna string, dnaPattern *string)
 		wantLength int
 	}{
 		// TODO: Add test cases.
@@ -173,7 +171,6 @@ func Test_distinct(t *testing.T) {
 			args: args{
 				dnaPattern: "ABCD",
 				arr:        &outArr,
-				dnaArray:   []string{`A`, `B`, `C`, `D`},
 				outPattern: &outPattern,
 			},
 			depenFunc:  createDNAPattern,
@@ -182,7 +179,7 @@ func Test_distinct(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tt.depenFunc(tt.args.dnaArray, tt.args.outPattern)
+			tt.depenFunc(tt.args.dnaPattern, tt.args.outPattern)
 			got := createFindKey(*tt.args.outPattern)
 			distinct(got)
 			if tt.wantLength != len(*got) {
@@ -200,7 +197,6 @@ func Test_counter(t *testing.T) {
 		outPattern *string
 		dnaPattern string
 		arr        *[]string
-		dnaArray   []string
 	}
 	tests := []struct {
 		name string
@@ -212,7 +208,6 @@ func Test_counter(t *testing.T) {
 			args: args{
 				dnaPattern: "ABCD",
 				arr:        &outArr,
-				dnaArray:   []string{`A`, `B`, `C`, `D`},
 				outPattern: &outPattern,
 			},
 		},
@@ -220,7 +215,7 @@ func Test_counter(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 
-			createDNAPattern(tt.args.dnaArray, tt.args.outPattern)
+			createDNAPattern(tt.args.dnaPattern, tt.args.outPattern)
 			got := createFindKey(*tt.args.outPattern)
 			distinct(got)
 
